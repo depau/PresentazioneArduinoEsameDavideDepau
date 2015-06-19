@@ -1,0 +1,1038 @@
+#:kivy 1.8.0
+#:import Window kivy.core.window.Window
+
+<Root>:
+    sm: sm
+    controls: controls
+
+    SlideManager:
+        id: sm
+        pos: root.pos
+        size: root.size
+
+    BoxLayout:
+        id: controls
+        ddbutton: ddbutton
+        orientation: "horizontal"
+        size_hint: None, None
+        pos_hint: {"right": 1, "y": 0}
+        height: "40dp"
+        width: min(root.width, dp(500))
+        opacity: .8
+
+        Button:
+            id: ddbutton
+
+        Button:
+            size_hint_x: None
+            width: "40dp"
+            on_release: root.sm.prev_slide()
+
+            Image:
+                source: "data/images/arrow_left.png"
+                center: self.parent.center
+                size: dp(32), dp(32)
+                nocache: False
+
+        Button:
+            size_hint_x: None
+            width: "40dp"
+            on_release: root.sm.next_slide()
+
+            Image:
+                source: "data/images/arrow_right.png"
+                center: self.parent.center
+                size: dp(32), dp(32)
+                nocache: False
+
+        Button:
+            size_hint_x: None
+            width: "40dp"
+            on_release: setattr(Window, "fullscreen", not Window.fullscreen)
+
+            Image:
+                source: "data/images/exit_fullscreen.png" if Window.fullscreen else "data/images/fullscreen.png"
+                center: self.parent.center
+                size: dp(32), dp(32)
+                nocache: False
+
+<DepauLabel@Label>:
+    text: "Davide Depau"
+    color: 0.55, 0.47, 0.4, 1
+    font_name: "Ubuntu"
+    font_size: "20sp"
+    pos_hint: {'x': 0.05, 'center_y': .05}
+    halign: "center"
+    size_hint_x: None
+    width: "100dp"
+
+
+<Caption@Label>:
+    color: .89, .44, .16, 1
+    markup: True
+    bold: True
+    #font_size: dp(50)
+    size_hint: None, None
+    width: self.parent.width
+    height: dp(20)
+    text_size: self.size
+    font_name: "Ubuntu"
+    halign: "center"
+
+<EndSlide@Screen>:
+    name: "Fine della presentazione"
+
+    Label:
+        text: "Fine della presentazione."
+        markup: True
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'top': 1}
+        size_hint_y: None
+        height: dp(20)
+        halign: "center"
+
+<Image>:
+    nocache: True
+
+
+<AsyncImage>:
+    nocache: True
+
+
+<SlideTitolo@Screen>:
+    name: "Arduino - La rivoluzione dell'elettronica"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "[b][size=80dp]Arduino[/size]\n\n[size=40dp]La rivoluzione dell'elettronica[/size][/b]"
+        color: 0, .53, .56, 1
+        markup: True
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .8}
+        halign: "center"
+
+    NoHintScatter:
+        size_hint: .7, None
+        height: self.width * img.texture_size[1] / img.texture_size[0] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.55, 'center_y': .4}
+
+        Image:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_osh.png"
+
+
+    DepauLabel
+        text: "Davide Mereu Depau - Liceo Scientifico Lanusei - Anno Scolastico 2014/15"
+        pos_hint: {'center_x': 0.5, 'center_y': .1}
+
+<SlideCose@Screen>:
+    name: "1. Che cos'e' Arduino?"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Che cos'è [i]Arduino[/i]?"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(70)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .9}
+        halign: "center"
+
+    NoHintScatter:
+        size_hint: None, .7
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .45}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_uno.png"
+
+    DepauLabel
+
+<SlideCircuito@Screen>:
+    name: "1.1 Circuiti programmabili"
+
+    canvas:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Circuiti programmabili"
+        color: 1, 1, 1, 1
+        markup: True
+        bold: True
+        font_size: dp(60)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .925}
+        halign: "center"
+
+    NoHintScatter:
+        size_hint: 1, .85
+        #width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.5, 'y': .0}
+
+        BoxLayout:
+            size_hint: None, None
+            size: self.parent.size
+
+            VideoPlayer:
+                source: app.get_video("data/videos/Arduino_LED")
+                options: {'eos': 'loop'}
+                state: "play"
+            
+    #DepauLabel
+
+<SlideMicrocontroller@Screen>:
+    name: "1.2 Il microcontroller"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Il microcontroller"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(80)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .9}
+        halign: "center"
+
+    NoHintScatter:
+        size_hint: None, .6
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.35, 'center_y': .4}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/ATMEGA328P-PU.png"
+
+    NoHintScatter:
+        size_hint: None, .3
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.8, 'center_y': .4}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/ATtiny85.png"
+
+    DepauLabel
+
+<SlideIDE@Screen>:
+    name: "1.3 L'IDE Arduino"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "[b]L'IDE Arduino[/b]\n[size=30dp][b]I[/b]ntegrated [b]D[/b]evelopment [b]E[/b]nvironment"
+        color: 0, .53, .56, 1
+        markup: True
+        font_size: dp(60)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .9}
+        halign: "center"
+        line_height: .7
+
+
+    NoHintScatter:
+        size_hint: None, .75
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[1] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .45}
+        #codeinput: codeinput
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_ide.png"
+
+        # CodeInput:
+        #     id: codeinput
+        #     # 15 : imgh = x : wh
+        #     x: 15 * img.width / img.texture_size[0] if img.texture_size[0] else 1
+        #     y: 137 * img.height / img.texture_size[1] if img.texture_size[1] else 1
+        #     size: [777 * img.width / img.texture_size[0] if img.texture_size[0] else 1, 421 * img.height / img.texture_size[1] if img.texture_size[1] else 1]
+        #     size_hint: None, None
+        #     font_size: 20 * img.width / img.texture_size[0] if img.texture_size[0] else 1
+        #     lexer: app.cpplexer
+        #     text: app.load_ino()
+        #     # 15, 540
+        #     # 757, 401
+    DepauLabel
+
+
+<SlideShield@Screen>:
+    name: "1.4 L'espansibilita' e gli shield"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "L'espansibilità e gli shield"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(50)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .9}
+        halign: "center"
+
+    NoHintScatter:
+        size_hint: None, .35
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.8, 'center_y': .65}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/sd_shield.png"
+
+        Caption:
+            text: "SD Shield"
+            y: img.y - dp(10)
+
+    NoHintScatter:
+        size_hint: None, .35
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.8, 'center_y': .3}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/proto_shield.png"
+
+        Caption:
+            text: "Proto Shield"
+            y: img.y - dp(10)
+
+    NoHintScatter:
+        size_hint: None, .5
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.325, 'center_y': .5}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/gsm_shield.png"
+
+        Label:
+            text: "GSM Shield"
+            color: .89, .44, .16, 1
+            markup: True
+            bold: True
+            font_size: dp(30)
+            font_name: "Ubuntu"
+            halign: "center"
+            y: img.y - dp(10)
+            size_hint: None, None
+            width: self.parent.width
+            height: dp(40)
+            text_size: self.size
+
+    DepauLabel
+
+
+<SlideModelli@Screen>:
+    name: "1.5 I principali modelli"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "I principali modelli"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(60)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .9}
+        halign: "center"
+
+    NoHintScatter:
+        size_hint: None, .35
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.3, 'center_y': .65}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_due.png"
+
+        Caption:
+            text: "Arduino Due"
+            y: img.y - dp(10)
+
+
+    NoHintScatter:
+        size_hint: None, .35
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.75, 'center_y': .65}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_yun.png"
+
+        Caption:
+            text: "Arduino Yun"
+            y: img.y - dp(10)
+
+
+    NoHintScatter:
+        size_hint: None, .35
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.3, 'center_y': .25}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_mega.png"
+
+        Caption:
+            text: "Arduino Mega2560"
+            y: img.y - dp(10)
+
+
+    NoHintScatter:
+        size_hint: None, .25
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.75, 'center_y': .25}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_nano.png"
+
+        Caption:
+            text: "Arduino Nano"
+            y: img.y - dp(10)
+
+    DepauLabel
+
+<SlideFOSH@Screen>:
+    name: "1.6 Open-source Hardware"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    # Label:
+    #     text: "Che cos'è [i]Arduino[/i]?"
+    #     color: 0, .53, .56, 1
+    #     markup: True
+    #     bold: True
+    #     font_size: dp(70)
+    #     font_name: "Ubuntu"
+    #     #text_size: dp(300), root.width
+    #     pos_hint: {'center_x': 0.5, 'center_y': .9}
+    #     halign: "center"
+
+    NoHintScatter:
+        size_hint: None, .7
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .5}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/fosh.png"
+
+    DepauLabel
+
+<SlideApplicazioni@Screen>:
+    name: "2. Le applicazioni"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Le applicazioni"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(80)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .5}
+        halign: "center"
+
+    DepauLabel
+
+<SlideMusica@Screen>:
+    name: "2.1 Musica"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Musica"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(80)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .85}
+        halign: "center"
+
+    DepauLabel
+
+    NoHintScatter:
+        size_hint: .4, .5
+        #width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.25, 'center_y': .45}
+
+        BoxLayout:
+            size_hint: None, None
+            size: self.parent.size
+            # width: self.parent.width
+            # height: root.height * .5
+
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            VideoPlayer:
+                source: app.get_video("data/videos/YEARS-HD")
+                options: {'eos': 'loop'}
+
+    NoHintScatter:
+        size_hint: None, .4
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.75, 'center_y': .45}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/guitartuner.png"
+
+<SlideStampanti@Screen>:
+    name: "2.2 Arte e Design - Stampa 3D (FFF)"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "[b]Arte e Design -\nStampa 3D (FFF)[/b]\n[size=30]Fused Filament Fabrication[/size]"
+        color: 0, .53, .56, 1
+        markup: True
+        font_size: dp(60)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .85}
+        halign: "center"
+
+    DepauLabel
+
+    NoHintScatter:
+        size_hint: None, .5
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.3, 'center_y': .4}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/prusa_mendel.png"
+
+        Caption:
+            text: "RepRap Prusa Mendel i2"
+            y: img.y - dp(10)
+
+
+    NoHintScatter:
+        size_hint: None, .5
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.75, 'center_y': .4}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/3drag.png"
+
+        Caption:
+            text: "3DRag®"
+            y: img.y - dp(10)
+ 
+<SlideVideoStampa@Screen>:
+    name: "2.2.1 Stampa 3D FFF - Video"
+
+    # canvas:
+    #     Color:
+    #         rgba: 1, 1, 1, 1
+    #     Rectangle:
+    #         pos: self.pos
+    #         size: self.size
+
+    # BoxLayout:
+    #     size_hint_y: None
+    #     height: root.height - dp(40)
+    #     y: dp(40)
+
+    VideoPlayer:
+        source: app.get_video("data/videos/3DRag")
+        options: {'eos': 'loop'}
+        state: "play"
+
+
+    #DepauLabel
+
+<SlideMateriali@Screen>:
+    name: "2.2.2 Alcuni materiali utilizzati"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Alcuni materiali utilizzati"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(60)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .85}
+        halign: "center"
+
+    DepauLabel
+
+    NoHintScatter:
+        size_hint: None, .4
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.2, 'center_y': .45}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/ABS.png"
+
+        Caption:
+            text: "ABS"
+            y: img.y - dp(20)
+
+
+    NoHintScatter:
+        size_hint: None, .4
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .45}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/chocolate.jpg"
+
+        Caption:
+            text: "Cioccolato (e altre sostanze commestibili)"
+            height: dp(50)
+            y: img.y - dp(40)
+
+
+    NoHintScatter:
+        size_hint: None, .4
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.8, 'center_y': .45}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/PLA.png"
+
+        Caption:
+            text: "PLA (Acido polilattico)"
+            y: img.y - dp(20)
+            height: "50dp"
+
+<SlidePLA@Screen>:
+    name: "2.2.3 Il PLA"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    NoHintScatter:
+        size_hint: None, .8
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .525}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/PLA_formula.png"
+
+    DepauLabel
+
+<SurvLabel@ButtonBehavior+Label>
+
+<SlideRepRap@Screen>:
+    name: "2.2.4 Tipi di stampanti 3D - RepRap"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    NoHintScatter:
+        size_hint: .7, None
+        height: self.width * img.texture_size[1] / img.texture_size[0] if img.texture_size[1] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .85}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/reprap_logo.png"
+
+    NoHintScatter:
+        size_hint: None, .6
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.3, 'center_y': .5}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/prusa_mendel.png"
+
+    NoHintScatter:
+        size_hint: None, .3
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.75, 'center_y': .5}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/sondaggio.jpg"
+
+    SurvLabel:
+        text: "*Fonte: Statistical Studies of Peer Production (2012)\nhttp://surveys.peerproduction.net/2012/05/manufacturing-in-motion/"
+        color: 0, 0, 0, 1
+        size_hint: None, None
+        height: dp(50)
+        width: self.parent.width
+        text_size: self.size
+        halign: "center"
+        y: self.parent.y + dp(50)
+        on_release: app.show_3dprinter_survey()
+
+    DepauLabel
+
+<SlideRAMPS@Screen>:
+    name: "2.2.5 La RAMPS"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "[b]RAMPS[/b]\n[size=30dp]RepRap Arduino Mega Pololu Shield[/size]"
+        color: 0, .53, .56, 1
+        markup: True
+        font_size: dp(60)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .85}
+        halign: "center"
+        line_height: .7
+
+    DepauLabel
+
+    NoHintScatter:
+        size_hint: None, .4
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.25, 'center_y': .45}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/arduino_mega.png"
+
+    Label:
+        text: "+"
+        color: .89, .44, .16, 1
+        bold: True
+        font_size: dp(80)
+        font_name: "Ubuntu"
+        size: dp(100), dp(100)
+        text_size: self.size
+        halign: "center"
+        valign: "middle"
+        pos_hint: {'center_x': 0.5, 'center_y': .5}
+
+
+    NoHintScatter:
+        size_hint: None, .4
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.75, 'center_y': .45}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/RAMPS.png"
+
+
+
+<SlideFotografia@Screen>:
+    name: "2.3 Fotografia"
+
+    Label:
+        text: "Fotografia"
+        color: 1, 1, 1, 1
+        markup: True
+        bold: True
+        font_size: dp(50)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .95}
+        halign: "center"
+
+    DepauLabel:
+        color: 1, 1, 1, 1
+        pos_hint: {'x': 0.05, 'center_y': .04}
+
+    NoHintScatter:
+        size_hint: None, .8
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .475}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/palloncino_brutta.jpg"
+
+<SlideSchema@Screen>:
+    name: "2.3.1 Schema innesco fotocamera"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Schema innesco"
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(50)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .925}
+        halign: "center"
+
+
+    DepauLabel
+
+    NoHintScatter:
+        size_hint: None, .8
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.575, 'center_y': .475}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/Innesco_schem.jpg"
+
+<SlideAltreImm@Screen>:
+    name: "2.3.2 Altre immagini"
+
+    Label:
+        text: "Altre immagini"
+        color: 1, 1, 1, 1
+        markup: True
+        bold: True
+        font_size: dp(50)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .95}
+        halign: "center"
+
+    DepauLabel:
+        color: 1, 1, 1, 1
+        pos_hint: {'x': 0.05, 'center_y': .04}
+
+    NoHintScatter:
+        size_hint: None, .8
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.275, 'center_y': .475}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/palloncino_bella.jpg"
+
+
+    NoHintScatter:
+        size_hint: None, .8
+        width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.725, 'center_y': .475}
+
+        AsyncImage:
+            id: img
+            size: self.parent.size
+            source: "data/images/palloncino_tizia.jpg"
+
+<SlideAltro@Screen>:
+    name: "2.4 Altri utilizzi"
+
+    Label:
+        text: "[b]Altri utilizzi[/b]\n[size=25dp]Termostato[/size]"
+        color: 1, 1, 1, 1
+        markup: True
+        font_size: dp(50)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .925}
+        halign: "center"
+        line_height: .7
+
+    DepauLabel:
+        color: 1, 1, 1, 1
+        pos_hint: {'x': 0.05, 'center_y': .04}
+
+    NoHintScatter:
+        size_hint: .9, .8
+        #width: self.height * img.texture_size[0] / img.texture_size[1] if img.texture_size[0] else 1
+        pos_hint: {'center_x': 0.5, 'center_y': .475}
+
+        BoxLayout:
+            size_hint: None, None
+            size: self.parent.size
+            # width: self.parent.width
+            # height: root.height * .5
+
+            VideoPlayer:
+                source: app.get_video("data/videos/Termostato")
+                options: {'eos': 'loop'}
+
+
+<SlideConclusione>:
+    name: "Conclusione"
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    DepauLabel
+
+    Label:
+        id: lab1
+        text: "Arduino ha abbassato i costi."
+        color: 0, .53, .56, 1
+        markup: True
+        font_size: dp(40)
+        font_name: "Ubuntu"
+        text_size: self.parent.width, self.height
+        size_hint_y: None
+        height: dp(120)
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .9}
+        halign: "center"
+        opacity: 0
+
+
+    Label:
+        id: lab2
+        text: "Arduino non ha inventato nulla."
+        color: 0, .53, .56, 1
+        markup: True
+        font_size: dp(40)
+        text_size: self.parent.width, self.height
+        size_hint_y: None
+        height: dp(120)
+        font_name: "UbuntuMedium"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .6}
+        halign: "center"
+        opacity: 0
+
+
+    Label:
+        id: lab3
+        text: "Arduino ha reso tecnologie già esistenti alla portata di tutti."
+        color: 0, .53, .56, 1
+        markup: True
+        bold: True
+        font_size: dp(40)
+        text_size: self.parent.width, self.height
+        size_hint_y: None
+        height: dp(170)
+        font_name: "Ubuntu"
+        #text_size: dp(300), root.width
+        pos_hint: {'center_x': 0.5, 'center_y': .3}
+        halign: "center"
+        opacity: 0
